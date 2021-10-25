@@ -1,6 +1,7 @@
 package sk.uniba.fmph.dcs;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class Play{
@@ -13,10 +14,15 @@ public class Play{
         cards.add(card);
     }
 
+    public void putTo(List<CardInterface> card){
+        cards.addAll(card);
+    }
+
     public ArrayList<CardInterface> throwAll(){
         ArrayList<CardInterface> tmp = new ArrayList<>();
         tmp.addAll(cards);
         cards.clear();
         return tmp;
     }
+
 }

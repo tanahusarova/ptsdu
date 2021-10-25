@@ -29,6 +29,17 @@ public class Deck extends Game{
         return cards.poll();
     }
 
+    public List<CardInterface> draw(int count){
+        Card card;
+        List<CardInterface> tmp = new ArrayList<>();
+        for (int i = 0; i < count; i++){
+            card = cards.poll();
+            if (card == null) return tmp;
+            tmp.add(card);
+        }
+        return tmp;
+    }
+
     public void addCards(List<CardInterface> cards){
         this.cards.addAll((Collection<? extends Card>) cards);
     }

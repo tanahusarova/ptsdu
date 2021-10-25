@@ -1,5 +1,8 @@
 package sk.uniba.fmph.dcs;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 public class Turn{
@@ -8,6 +11,7 @@ public class Turn{
     private Deck deck;
     private Play play;
     private DiscardPile discardPile;
+    private List<BuyDeck> buyDecks;
 
     public Turn(int actions, int buys, int coins){
         this.turnStatus = new TurnStatus(actions, buys, coins);
@@ -15,6 +19,7 @@ public class Turn{
         deck = new Deck();
         play = new Play();
         discardPile = new DiscardPile();
+        buyDecks = new ArrayList<>();
     }
 
     public TurnStatus getTurnStatus() {
@@ -33,10 +38,14 @@ public class Turn{
         return play;
     }
 
+    public BuyDeck getBuyDeck(int i){
+        return buyDecks.get(i);
+    }
+
     public void updateStatus(Card card){
-        turnStatus.actions += card.cardType().getPlusActions();
-        turnStatus.buys += card.cardType().getPlusBuys();
-        turnStatus.coins += card.cardType().getPlusCoins();
+        card.evaluate(turnStatus);
+     //   if (card.cardType().isAction()) turnStatus.actions--;
+
         int plusCards = card.cardType().getPlusCards();
         if (plusCards > 0) {
             for (int i = 0; i < plusCards; i++) {
@@ -48,6 +57,16 @@ public class Turn{
                 hand.addCards(tmp);
             }
         }
+
+
+    }
+
+    public int numberOfEmptyBuyDecks(){
+        int tmp = 0;
+        for (BuyDeck bd : buyDecks){
+            if (bd.getCardCount() == 0) tmp++;
+        }
+        return tmp;
     }
 
     public void changeDeck(){
