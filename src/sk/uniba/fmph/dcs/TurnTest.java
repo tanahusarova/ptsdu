@@ -3,6 +3,7 @@ package sk.uniba.fmph.dcs;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
@@ -83,9 +84,10 @@ public class TurnTest {
 
         turn.getDiscardPile().addCards(cards1);
         assertTrue(turn.getDeck().getSize() == 5);
-        turn.getDeck().draw(6);
+        turn.getDeck().draw(3);
+        turn.getCardsForNextMove();
         assertTrue(turn.getDiscardPile().getSize() == 0);
-        assertTrue(turn.getDeck().getSize() == 4);
+        assertTrue(turn.getDeck().getSize() == 2);
 
     }
 
@@ -102,6 +104,22 @@ public class TurnTest {
         turn.getBuyDeck(3).buy(4);
         turn.getBuyDeck(4).buy(1);
         assertTrue(turn.numberOfEmptyBuyDecks() == 4);
+
+    }
+
+    @Test
+    public void assertGetMoneyOnHand(){
+        turn = new Turn(1, 1, 0);
+        turn.getHand().throwAll();
+        turn.getHand().addCards(new Card(GameCardType.GAME_CARD_TYPE_COPPER));
+        turn.getHand().addCards(new Card(GameCardType.GAME_CARD_TYPE_COPPER));
+        turn.getHand().addCards(new Card(GameCardType.GAME_CARD_TYPE_COPPER));
+        assertTrue(turn.getMoneyOnHand() == 3);
+        turn.getHand().addCards(new Card(GameCardType.GAME_CARD_TYPE_COPPER));
+        turn.getHand().addCards(new Card(GameCardType.GAME_CARD_TYPE_COPPER));
+        assertTrue(turn.getMoneyOnHand() == 5);
+        List<CardInterface> tmp = turn.payWithMoneyOnHand(3);
+        assertTrue(tmp.size() == 3);
 
     }
 

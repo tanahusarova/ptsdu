@@ -34,7 +34,11 @@ public class Hand{
     }
 
     public boolean removeFrom(List<CardInterface> cards){
-        return cards.removeAll(cards);
+        return (this.cards).removeAll(cards);
+    }
+
+    public boolean removeFrom(CardInterface card){
+        return (this.cards).remove(card);
     }
 
     public CardInterface getCard(int i){

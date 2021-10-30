@@ -107,4 +107,38 @@ public class Turn{
             hand.addCards(card);
         }
     }
+
+    public int getMoneyOnHand(){
+        int moneyOnHandAmount = 0;
+        GameCardType gct;
+
+        for (int i = 0; i < hand.getSize(); i++) {
+            gct = hand.getType(i);
+
+            if (gct == GAME_CARD_TYPE_COPPER) {
+                moneyOnHandAmount++;
+            }
+        }
+        return moneyOnHandAmount;
+    }
+
+    public List<CardInterface> payWithMoneyOnHand(int i){
+        if (getMoneyOnHand() < i) return null;
+
+        List<CardInterface> money = new ArrayList<>();
+
+        for (int k = 0; k < hand.getSize(); k++){
+            if (hand.getCard(k).equals(new Card(GAME_CARD_TYPE_COPPER)))
+                money.add(hand.getCard(k));
+            if (money.size() == i) break;
+        }
+
+        hand.removeFrom(money);
+        return money;
+    }
+
+    public int getBuyDecksSize(){
+        return buyDecks.size();
+    }
+
 }

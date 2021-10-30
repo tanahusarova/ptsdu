@@ -28,6 +28,7 @@ public class Game{
         if (card != null && card.cardType().isAction()){
             turn.getPlay().putTo(card);
             turn.updateStatus(card);
+            turn.getTurnStatus().actions--;
             return true;
         }
 
@@ -36,7 +37,6 @@ public class Game{
     }
 
     public boolean endPlayCardPhase(){
-        turn.getTurnStatus().actions--;
         buyPhase = true;
         playPhase = false;
         return true;
@@ -44,48 +44,27 @@ public class Game{
 
     public boolean buyCard(int buyCardIdx){
         if (!buyPhase) return false;
+        if (turn.getBuyDecksSize() <= buyCardIdx) return false;
 
         BuyDeck buyDeck = turn.getBuyDeck(buyCardIdx);
         if(buyDeck.getCardCount() == 0) return false;
 
         int tmp = buyDeck.getGameCardType().getCost();
-        int moneyOnHandAmount = 0;
-        ArrayList<CardInterface> moneyOnHand = new ArrayList<>();
-        GameCardType gct;
-        boolean paidForCard = false;
+        int moneyOnHandAmount = turn.getMoneyOnHand();
+        if(moneyOnHandAmount + turn.getTurnStatus().coins < tmp) return false;
 
-        for (int i = 0; i < turn.getHand().getSize(); i++)
-        {
-            gct = turn.getHand().getType(i);
-
-            if (gct == GAME_CARD_TYPE_COPPER){
-                moneyOnHandAmount++;
-                moneyOnHand.add(turn.getHand().getCard(i));
-            }
-
-            if(moneyOnHandAmount == tmp){
-                turn.getHand().removeFrom(moneyOnHand);
-                turn.getPlay().putTo(moneyOnHand);
-                paidForCard = true;
-                break;
-
-            }
+        if(moneyOnHandAmount > tmp) turn.getPlay().putTo(turn.payWithMoneyOnHand(tmp));
+        else{
+            turn.getPlay().putTo(turn.payWithMoneyOnHand(moneyOnHandAmount));
+            turn.getTurnStatus().useCoins(tmp - moneyOnHandAmount);
         }
-
-        if(turn.getTurnStatus().coins + moneyOnHandAmount < tmp) return false;
 
         Card card = (Card) buyDeck.buy();
-
-        if (!paidForCard){
-            turn.getTurnStatus().useCoins(tmp - moneyOnHandAmount);
-            turn.getHand().removeFrom(moneyOnHand);
-            turn.getPlay().putTo(moneyOnHand);
-        }
-
         turn.getDiscardPile().addCard(card);
         turn.getTurnStatus().buys--;
 
         return true;
+
     }
 
     public boolean endTurn(){
@@ -98,6 +77,10 @@ public class Game{
         if (eds.isGameOver(turn)) System.out.println("Hra skončila");
 
         return true;
+    }
+
+    public Turn getTurn(){
+        return turn;
     }
 
     public GameState getGameState(){
