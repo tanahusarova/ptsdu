@@ -2,7 +2,6 @@ package sk.uniba.fmph.dcs;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class Play{
     private ArrayList<CardInterface> cards;
@@ -23,6 +22,10 @@ public class Play{
         tmp.addAll(cards);
         cards.clear();
         return tmp;
+    }
+
+    public int getSize(){
+        return cards.size();
     }
 
 }

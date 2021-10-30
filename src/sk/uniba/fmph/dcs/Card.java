@@ -6,13 +6,13 @@ public class Card implements CardInterface{
     private String description;
     private int cost;
 
-    private GameCardType typ;
+    private GameCardType type;
 
-    public Card(GameCardType typ) {
-        this.typ = typ;
-        name = typ.getName();
-        description = typ.getDescription();
-        cost = typ.getCost();
+    public Card(GameCardType type) {
+        this.type = type;
+        name = type.getName();
+        description = type.getDescription();
+        cost = type.getCost();
     }
 
     @Override
@@ -51,12 +51,14 @@ public class Card implements CardInterface{
 
     @Override
     public void evaluate(TurnStatus ts) {
-
+        ts.actions += type.getPlusActions();
+        ts.buys += type.getPlusBuys();
+        ts.coins += type.getPlusCoins();
     }
 
     @Override
     public GameCardType cardType() {
-        return this.typ;
+        return this.type;
     }
 }
 

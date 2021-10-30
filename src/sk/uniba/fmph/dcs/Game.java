@@ -15,23 +15,10 @@ public class Game{
     private Turn turn;
 
     public Game(){
-        gameState = new GameState();
+       // gameState = new GameState();
         playPhase = true;
         buyPhase = false;
         turn = new Turn(1, 1, 0);
-    }
-
-    private void getCardsForNextMove(){
-        CardInterface card;
-        for (int i = 0; i < 5; i++){
-            card = turn.getDeck().getNewMove();
-            if (card == null){
-               // turn.getDeck().addCards(turn.getDiscardPile().shuffle());
-                turn.changeDeck();
-                card = turn.getDeck().getNewMove();
-            }
-            turn.getHand().addCards(card);
-        }
     }
 
     public boolean playCard(int handIdx){
@@ -58,7 +45,6 @@ public class Game{
         BuyDeck buyDeck = turn.getBuyDeck(buyCardIdx);
         if(buyDeck.getCardCount() == 0) return false;
         int tmp = buyDeck.getGameCardType().getCost();
-        //prejst aj peniaze co mam na ruke, odcitat z ruky, hodit do discard
         int moneyOnHandAmount = 0;
         ArrayList<CardInterface> moneyOnHand = new ArrayList<>();
         GameCardType gct;
@@ -81,9 +67,8 @@ public class Game{
         }
 
         if(turn.getTurnStatus().coins + moneyOnHandAmount < tmp) return false;
-        //vyberanie kariet z ruky
 
-        Card card = (Card) buyDeck.sellCard();
+        Card card = (Card) buyDeck.buy();
 
         if (!paidForCard){
             turn.getTurnStatus().useCoins(tmp - moneyOnHandAmount);
@@ -98,12 +83,12 @@ public class Game{
     }
 
     public boolean endTurn(){
-        List<CardInterface> tmp = turn.getPlay().throwAll();
-        turn.getDiscardPile().addCards(tmp);
-        getCardsForNextMove();
+        turn.endTurn();
+        turn.getCardsForNextMove();
         buyPhase = false;
         playPhase = true;
         EndGameStrategy eds = new EndGameStrategyAnd();
+        if (eds.isGameOver(turn)) System.out.println("Hra skončila");
 
         return true;
     }

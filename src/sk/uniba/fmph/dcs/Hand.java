@@ -1,9 +1,7 @@
 package sk.uniba.fmph.dcs;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 public class Hand{
     private ArrayList<CardInterface> cards;
@@ -20,15 +18,7 @@ public class Hand{
         this.cards.addAll(cards);
     }
 
-    public boolean isActionCard(int idx){
-        return cards.get(idx).cardType().isAction;
-    }
-
     public int getSize(){ return cards.size(); }
-
-    public int getValue(int i){
-        return cards.get(i).cardType().getPlusCoins();
-    }
 
     public GameCardType getType(int i){
         return cards.get(i).cardType();
@@ -41,8 +31,8 @@ public class Hand{
         return tmp;
     }
 
-    public void removeFrom(List<CardInterface> cards){
-        cards.removeAll(cards);
+    public boolean removeFrom(List<CardInterface> cards){
+        return cards.removeAll(cards);
     }
 
     public CardInterface getCard(int i){
@@ -55,6 +45,10 @@ public class Hand{
         tmp.addAll(cards);
         cards.clear();
         return tmp;
+    }
+
+    public boolean isEmpty(){
+        return cards.isEmpty();
     }
 
 }

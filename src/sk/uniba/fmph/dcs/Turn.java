@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
+import static sk.uniba.fmph.dcs.GameCardType.*;
+
 public class Turn{
     private TurnStatus turnStatus;
     private Hand hand;
@@ -15,11 +17,18 @@ public class Turn{
 
     public Turn(int actions, int buys, int coins){
         this.turnStatus = new TurnStatus(actions, buys, coins);
-        hand = new Hand();
-        deck = new Deck();
-        play = new Play();
-        discardPile = new DiscardPile();
-        buyDecks = new ArrayList<>();
+        this.hand = new Hand();
+        this.deck = new Deck();
+        this.play = new Play();
+        this.discardPile = new DiscardPile();
+        this.buyDecks = new ArrayList<>();
+        buyDecks.add(new BuyDeck(GAME_CARD_TYPE_MARKET, 10));
+        buyDecks.add(new BuyDeck(GAME_CARD_TYPE_SMITHY, 10));
+        buyDecks.add(new BuyDeck(GAME_CARD_TYPE_VILLAGE, 10));
+        buyDecks.add(new BuyDeck(GAME_CARD_TYPE_FESTIVAL, 10));
+        buyDecks.add(new BuyDeck(GAME_CARD_TYPE_LABORATORY, 10));
+        getCardsForNextMove();
+
     }
 
     public TurnStatus getTurnStatus() {
@@ -44,8 +53,6 @@ public class Turn{
 
     public void updateStatus(Card card){
         card.evaluate(turnStatus);
-     //   if (card.cardType().isAction()) turnStatus.actions--;
-
         int plusCards = card.cardType().getPlusCards();
         if (plusCards > 0) {
             for (int i = 0; i < plusCards; i++) {
@@ -58,7 +65,6 @@ public class Turn{
             }
         }
 
-
     }
 
     public int numberOfEmptyBuyDecks(){
@@ -69,11 +75,30 @@ public class Turn{
         return tmp;
     }
 
+    public void endTurn(){
+        List<CardInterface> tmp = play.throwAll();
+        tmp.addAll(hand.throwAll());
+        discardPile.addCards(tmp);
+    }
+
     public void changeDeck(){
         deck.addCards(discardPile.shuffle());
     }
 
     public DiscardPile getDiscardPile() {
         return discardPile;
+    }
+
+    public void getCardsForNextMove(){
+        CardInterface card;
+        for (int i = 0; i < 5; i++){
+            card = deck.getNewMove();
+            if (card == null){
+                // turn.getDeck().addCards(turn.getDiscardPile().shuffle());
+                changeDeck();
+                card = deck.getNewMove();
+            }
+            hand.addCards(card);
+        }
     }
 }

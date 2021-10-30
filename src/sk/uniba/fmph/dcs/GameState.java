@@ -10,6 +10,7 @@ import static sk.uniba.fmph.dcs.GameCardType.*;
 
 public class GameState {
     private List<Card> handCards;
+    private Hand hand;
     private HashMap<GameCardType, Integer> buyCards;
     private int deckSize;
     private int discardPileSize;
@@ -19,30 +20,32 @@ public class GameState {
     private DiscardPile discardPile;
     private Deck deck;
 
-    public GameState(){
-        deck = new Deck();
-        discardPile = new DiscardPile();
+    public GameState(Deck deck, DiscardPile discardPile){
+        this.deck = deck;
+        this.discardPile = discardPile;
         buyCards = new HashMap<>();
         buyCards.put(GAME_CARD_TYPE_MARKET, 10);
         buyCards.put(GAME_CARD_TYPE_SMITHY, 10);
         buyCards.put(GAME_CARD_TYPE_VILLAGE, 10);
         buyCards.put(GAME_CARD_TYPE_FESTIVAL, 10);
         buyCards.put(GAME_CARD_TYPE_LABORATORY, 10);
+
     }
 
     public HashMap<GameCardType, Integer> getBuyCards() {
         return buyCards;
     }
 
-    public DiscardPile getDiscardPile() {
-        return discardPile;
+    public int getDiscardPileSize() {
+        return discardPile.getSize();
     }
 
-    public boolean removeCard(GameCardType type){
-        int tmp = buyCards.get(type);
-        if (tmp == 0) return false;
-        else buyCards.put(type, tmp - 1);
-        return true;
+    public int getDeckSize(){
+        return deck.getSize();
+    }
+
+    public Optional<CardInterface> discardPileTop(){
+        return discardPile.getTopCard();
     }
 /*
     public boolean threePilesOnEmpty(){
@@ -53,6 +56,14 @@ public class GameState {
         int tmp = ref.p;
         return tmp >= 3;
     }
+
+    handCards: Card[]
+buyCards: pair<Card, int>[] deckSize: int
+discardPileSize: int discardPileTop: optional<Card> actions: int
+buys: int
+coins: int
+points: int
+turnNumber: int
 
  */
 }

@@ -1,2 +1,9 @@
-package sk.uniba.fmph.dcs;public class GameTest {
+package sk.uniba.fmph.dcs;
+
+import org.junit.Test;
+
+public class GameTest {
+
+    @Test
+
 }
