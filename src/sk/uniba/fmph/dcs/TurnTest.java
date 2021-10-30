@@ -107,20 +107,5 @@ public class TurnTest {
 
     }
 
-    @Test
-    public void assertGetMoneyOnHand(){
-        turn = new Turn(1, 1, 0);
-        turn.getHand().throwAll();
-        turn.getHand().addCards(new Card(GameCardType.GAME_CARD_TYPE_COPPER));
-        turn.getHand().addCards(new Card(GameCardType.GAME_CARD_TYPE_COPPER));
-        turn.getHand().addCards(new Card(GameCardType.GAME_CARD_TYPE_COPPER));
-        assertTrue(turn.getMoneyOnHand() == 3);
-        turn.getHand().addCards(new Card(GameCardType.GAME_CARD_TYPE_COPPER));
-        turn.getHand().addCards(new Card(GameCardType.GAME_CARD_TYPE_COPPER));
-        assertTrue(turn.getMoneyOnHand() == 5);
-        List<CardInterface> tmp = turn.payWithMoneyOnHand(3);
-        assertTrue(tmp.size() == 3);
-
-    }
 
 }

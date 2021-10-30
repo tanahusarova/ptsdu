@@ -100,7 +100,6 @@ public class Turn{
         for (int i = 0; i < 5; i++){
             card = deck.getNewMove();
             if (card == null){
-                // turn.getDeck().addCards(turn.getDiscardPile().shuffle());
                 changeDeck();
                 card = deck.getNewMove();
             }
@@ -120,21 +119,6 @@ public class Turn{
             }
         }
         return moneyOnHandAmount;
-    }
-
-    public List<CardInterface> payWithMoneyOnHand(int i){
-        if (getMoneyOnHand() < i) return null;
-
-        List<CardInterface> money = new ArrayList<>();
-
-        for (int k = 0; k < hand.getSize(); k++){
-            if (hand.getCard(k).equals(new Card(GAME_CARD_TYPE_COPPER)))
-                money.add(hand.getCard(k));
-            if (money.size() == i) break;
-        }
-
-        hand.removeFrom(money);
-        return money;
     }
 
     public int getBuyDecksSize(){

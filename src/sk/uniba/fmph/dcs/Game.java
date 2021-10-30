@@ -25,10 +25,11 @@ public class Game{
         if (!playPhase) return false;
 
         Card card = (Card) turn.getHand().play(handIdx);
-        if (card != null && card.cardType().isAction()){
+
+        if (card != null){
+            if (card.cardType().isAction()) turn.getTurnStatus().actions--;
             turn.getPlay().putTo(card);
             turn.updateStatus(card);
-            turn.getTurnStatus().actions--;
             return true;
         }
 
@@ -50,14 +51,9 @@ public class Game{
         if(buyDeck.getCardCount() == 0) return false;
 
         int tmp = buyDeck.getGameCardType().getCost();
-        int moneyOnHandAmount = turn.getMoneyOnHand();
-        if(moneyOnHandAmount + turn.getTurnStatus().coins < tmp) return false;
+        if(turn.getTurnStatus().coins < tmp) return false;
 
-        if(moneyOnHandAmount > tmp) turn.getPlay().putTo(turn.payWithMoneyOnHand(tmp));
-        else{
-            turn.getPlay().putTo(turn.payWithMoneyOnHand(moneyOnHandAmount));
-            turn.getTurnStatus().useCoins(tmp - moneyOnHandAmount);
-        }
+        turn.getTurnStatus().useCoins(tmp);
 
         Card card = (Card) buyDeck.buy();
         turn.getDiscardPile().addCard(card);
