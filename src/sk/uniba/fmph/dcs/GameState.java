@@ -29,7 +29,6 @@ public class GameState {
         buyCards.put(GAME_CARD_TYPE_VILLAGE, 10);
         buyCards.put(GAME_CARD_TYPE_FESTIVAL, 10);
         buyCards.put(GAME_CARD_TYPE_LABORATORY, 10);
-
     }
 
     public HashMap<GameCardType, Integer> getBuyCards() {
@@ -47,23 +46,5 @@ public class GameState {
     public Optional<CardInterface> discardPileTop(){
         return discardPile.getTopCard();
     }
-/*
-    public boolean threePilesOnEmpty(){
-        var ref = new Object() {
-            int p = 0;
-        };
-        buyCards.forEach((k, v) -> {if (v == 0) ref.p++;});
-        int tmp = ref.p;
-        return tmp >= 3;
-    }
 
-    handCards: Card[]
-buyCards: pair<Card, int>[] deckSize: int
-discardPileSize: int discardPileTop: optional<Card> actions: int
-buys: int
-coins: int
-points: int
-turnNumber: int
-
- */
 }

@@ -16,22 +16,6 @@ public class GameCard implements CardInterface{
         ts.coins += card.cardType().getPlusCoins();
 
     }
-    /*
-    public void evaluateDeck(Hand hand, Deck deck){
-        int plusCards = card.cardType().getPlusCards();
-        if (plusCards > 0) {
-            for (int i = 0; i < plusCards; i++) {
-                CardInterface tmp = deck.getNewMove();
-                if (tmp == null) {
-                    changeDeck();
-                    tmp = deck.getNewMove();
-                }
-                hand.addCards(tmp);
-            }
-        }
-    }
-
-     */
 
     @Override
     public GameCardType cardType() {

@@ -16,10 +16,12 @@ public class TurnTest {
         assertTrue(turn.getTurnStatus().actions == 1);
         assertTrue(turn.getHand().getSize() == 5);
         turn.updateStatus((Card) card1);
+
         assertTrue(turn.getTurnStatus().actions == 3);
         assertTrue(turn.getHand().getSize() == 6);
         CardInterface card2 = new Card(GameCardType.GAME_CARD_TYPE_FESTIVAL);
         turn.updateStatus((Card) card2);
+
         assertTrue(turn.getTurnStatus().coins == 2);
 
     }
@@ -29,6 +31,7 @@ public class TurnTest {
         turn = new Turn(1, 1, 0);
         assertTrue(turn.getHand().getSize() == 5);
         turn.getCardsForNextMove();
+
         assertTrue(turn.getHand().getSize() == 10);
         turn.getHand().throwAll();
         assertTrue(turn.getHand().getSize() == 0);

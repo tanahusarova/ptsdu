@@ -9,7 +9,7 @@ public class Play{
         cards = new ArrayList<>();
     }
 
-    public void putTo(Card card){
+    public void putTo(CardInterface card){
         cards.add(card);
     }
 
@@ -19,8 +19,10 @@ public class Play{
 
     public ArrayList<CardInterface> throwAll(){
         ArrayList<CardInterface> tmp = new ArrayList<>();
+
         tmp.addAll(cards);
         cards.clear();
+
         return tmp;
     }
 

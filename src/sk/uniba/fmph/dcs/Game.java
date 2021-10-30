@@ -23,12 +23,14 @@ public class Game{
 
     public boolean playCard(int handIdx){
         if (!playPhase) return false;
+
         Card card = (Card) turn.getHand().play(handIdx);
         if (card != null && card.cardType().isAction()){
             turn.getPlay().putTo(card);
             turn.updateStatus(card);
             return true;
         }
+
         turn.getHand().addCards(card);
         return false;
     }
@@ -42,8 +44,10 @@ public class Game{
 
     public boolean buyCard(int buyCardIdx){
         if (!buyPhase) return false;
+
         BuyDeck buyDeck = turn.getBuyDeck(buyCardIdx);
         if(buyDeck.getCardCount() == 0) return false;
+
         int tmp = buyDeck.getGameCardType().getCost();
         int moneyOnHandAmount = 0;
         ArrayList<CardInterface> moneyOnHand = new ArrayList<>();
@@ -53,10 +57,12 @@ public class Game{
         for (int i = 0; i < turn.getHand().getSize(); i++)
         {
             gct = turn.getHand().getType(i);
+
             if (gct == GAME_CARD_TYPE_COPPER){
                 moneyOnHandAmount++;
                 moneyOnHand.add(turn.getHand().getCard(i));
             }
+
             if(moneyOnHandAmount == tmp){
                 turn.getHand().removeFrom(moneyOnHand);
                 turn.getPlay().putTo(moneyOnHand);
@@ -78,8 +84,8 @@ public class Game{
 
         turn.getDiscardPile().addCard(card);
         turn.getTurnStatus().buys--;
-        return true;
 
+        return true;
     }
 
     public boolean endTurn(){
@@ -88,6 +94,7 @@ public class Game{
         buyPhase = false;
         playPhase = true;
         EndGameStrategy eds = new EndGameStrategyAnd();
+
         if (eds.isGameOver(turn)) System.out.println("Hra skončila");
 
         return true;

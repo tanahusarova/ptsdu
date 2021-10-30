@@ -26,8 +26,10 @@ public class Hand{
 
     public CardInterface play(int idx){
         if (cards.get(idx) == null) return null;
+
         CardInterface tmp = cards.get(idx);
         cards.remove(idx);
+
         return tmp;
     }
 
@@ -37,13 +39,16 @@ public class Hand{
 
     public CardInterface getCard(int i){
         CardInterface card = cards.get(i);
+
         return card;
     }
 
     public ArrayList<CardInterface> throwAll(){
         ArrayList<CardInterface> tmp = new ArrayList<>();
+
         tmp.addAll(cards);
         cards.clear();
+
         return tmp;
     }
 

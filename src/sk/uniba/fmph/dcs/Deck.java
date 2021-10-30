@@ -10,12 +10,13 @@ public class Deck{
     public Deck(){
         cards = new LinkedList<>();
         List<CardInterface> tmp = new ArrayList<>();
-        for (int i = 0; i < 3; i++){
+
+        for (int i = 0; i < 3; i++)
             tmp.add(new Card(GAME_CARD_TYPE_ESTATE));
-        }
-        for (int i = 0; i < 7; i++){
+
+        for (int i = 0; i < 7; i++)
             tmp.add(new Card(GAME_CARD_TYPE_COPPER));
-        }
+
         Collections.shuffle(tmp);
         cards.addAll(tmp);
 
@@ -28,11 +29,13 @@ public class Deck{
     public List<CardInterface> draw(int count){
         Card card;
         List<CardInterface> tmp = new ArrayList<>();
+
         for (int i = 0; i < count; i++){
             card = (Card) cards.poll();
             if (card == null) return tmp;
             tmp.add(card);
         }
+
         return tmp;
     }
 

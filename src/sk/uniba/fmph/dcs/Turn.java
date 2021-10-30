@@ -22,11 +22,13 @@ public class Turn{
         this.play = new Play();
         this.discardPile = new DiscardPile();
         this.buyDecks = new ArrayList<>();
+
         buyDecks.add(new BuyDeck(GAME_CARD_TYPE_MARKET, 10));
         buyDecks.add(new BuyDeck(GAME_CARD_TYPE_SMITHY, 10));
         buyDecks.add(new BuyDeck(GAME_CARD_TYPE_VILLAGE, 10));
         buyDecks.add(new BuyDeck(GAME_CARD_TYPE_FESTIVAL, 10));
         buyDecks.add(new BuyDeck(GAME_CARD_TYPE_LABORATORY, 10));
+
         getCardsForNextMove();
 
     }
@@ -54,6 +56,7 @@ public class Turn{
     public void updateStatus(Card card){
         card.evaluate(turnStatus);
         int plusCards = card.cardType().getPlusCards();
+
         if (plusCards > 0) {
             for (int i = 0; i < plusCards; i++) {
                 CardInterface tmp = deck.getNewMove();
@@ -69,9 +72,11 @@ public class Turn{
 
     public int numberOfEmptyBuyDecks(){
         int tmp = 0;
+
         for (BuyDeck bd : buyDecks){
             if (bd.getCardCount() == 0) tmp++;
         }
+
         return tmp;
     }
 
@@ -91,6 +96,7 @@ public class Turn{
 
     public void getCardsForNextMove(){
         CardInterface card;
+
         for (int i = 0; i < 5; i++){
             card = deck.getNewMove();
             if (card == null){
