@@ -26,7 +26,7 @@ public class Game{
 
         Card card = (Card) turn.getHand().play(handIdx);
 
-        if (card != null){
+        if (card != null && (card.cardType().isAction || card.cardType() == GAME_CARD_TYPE_COPPER)){
             if (card.cardType().isAction()) turn.getTurnStatus().actions--;
             turn.getPlay().putTo(card);
             turn.updateStatus(card);
