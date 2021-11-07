@@ -25,7 +25,7 @@ public class Hand{
     }
 
     public CardInterface play(int idx){
-        if (cards.get(idx) == null) return null;
+        if (cards.get(idx) == null) return null; //asi blba otazka ale nedostanes tu nahodou index out of bound?
 
         CardInterface tmp = cards.get(idx);
         cards.remove(idx);
@@ -41,7 +41,7 @@ public class Hand{
         return (this.cards).remove(card);
     }
 
-    public CardInterface getCard(int i){
+    public CardInterface getCard(int i){ //ani tu nevyjde z pola ak hrac zada i >= cars.size()?
         CardInterface card = cards.get(i);
 
         return card;

@@ -15,7 +15,8 @@ public class Turn{
     private DiscardPile discardPile;
     private List<BuyDeck> buyDecks;
 
-    public Turn(int actions, int buys, int coins){
+    public Turn(int actions, int buys, int coins){ //zda sa mi ze neresetujes turnstatus na zaciatku turnu
+                                                    //teda aspon ja som pochopil ze by to tak malo byt
         this.turnStatus = new TurnStatus(actions, buys, coins);
         this.hand = new Hand();
         this.deck = new Deck();
@@ -60,7 +61,7 @@ public class Turn{
         if (plusCards > 0) {
             for (int i = 0; i < plusCards; i++) {
                 CardInterface tmp = deck.getNewMove();
-                if (tmp == null) {
+                if (tmp == null) {  //mozno by bolo tento nedostatok kariet lepsie riesit priamo v Decku ale to je len malickost
                     changeDeck();
                     tmp = deck.getNewMove();
                 }
@@ -107,7 +108,7 @@ public class Turn{
         }
     }
 
-    public int getMoneyOnHand(){
+    public int getMoneyOnHand(){ //tato metoda sa niekde pouziva?
         int moneyOnHandAmount = 0;
         GameCardType gct;
 

@@ -9,7 +9,7 @@ import static sk.uniba.fmph.dcs.GameCardType.GAME_CARD_TYPE_COPPER;
 
 public class Game{
 
-    private GameState gameState;
+    private GameState gameState; //toto by mozno nebolo zle vymazat,kedze sa nikde nepouziva, ale to je asi jedno :D
     boolean playPhase;
     boolean buyPhase;
     private Turn turn;
@@ -24,9 +24,9 @@ public class Game{
     public boolean playCard(int handIdx){
         if (!playPhase) return false;
 
-        Card card = (Card) turn.getHand().play(handIdx);
+        Card card = (Card) turn.getHand().play(handIdx); //musi tu byt ten type cast(len ma to zaujima :D)?
 
-        if (card != null && (card.cardType().isAction || card.cardType() == GAME_CARD_TYPE_COPPER)){
+        if (card != null && (card.cardType().isAction || card.cardType() == GAME_CARD_TYPE_COPPER)){ //netreba tu zahrnut aj tu ESTATE kartu? lebo ten potom nikdy nezahra
             if (card.cardType().isAction()) turn.getTurnStatus().actions--;
             turn.getPlay().putTo(card);
             turn.updateStatus(card);
@@ -70,7 +70,7 @@ public class Game{
         playPhase = true;
         EndGameStrategy eds = new EndGameStrategyAnd();
 
-        if (eds.isGameOver(turn)) System.out.println("Hra skončila");
+        if (eds.isGameOver(turn)) System.out.println("Hra skončila"); //mozno by sa siklo trackovat ci hra uz skoncila aby hrac uz dalej nic nevykonaval
 
         return true;
     }

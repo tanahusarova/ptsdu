@@ -8,7 +8,7 @@ public class Deck{
     private Queue<CardInterface> cards;
 
     public Deck(){
-        cards = new LinkedList<>();
+        cards = new LinkedList<>(); //zda sa mi ze tu by sa to dalo dat rovno do cards
         List<CardInterface> tmp = new ArrayList<>();
 
         for (int i = 0; i < 3; i++)
@@ -26,7 +26,7 @@ public class Deck{
         return cards.poll();
     }
 
-    public List<CardInterface> draw(int count){
+    public List<CardInterface> draw(int count){ //na tahanie kariet asi vyuzivas getNewMove()
         Card card;
         List<CardInterface> tmp = new ArrayList<>();
 
@@ -41,7 +41,7 @@ public class Deck{
 
     public void addCards(List<CardInterface> cards){
         this.cards.addAll(cards);
-    }
+    } //tie karty ti neprida naspodok ak to tak teda bolo v zadani
 
     public int getSize(){
         return cards.size();

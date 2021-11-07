@@ -1,6 +1,7 @@
 package sk.uniba.fmph.dcs;
 
-public class GameCard implements CardInterface{
+public class GameCard implements CardInterface{ //tato trieda robi to iste co Card nie?
+                                                // ja som ju u seba vymazal ale to je jedno :D
     private CardInterface card;
     private GameCardType gameCardType;
 
