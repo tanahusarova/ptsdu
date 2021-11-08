@@ -17,16 +17,6 @@ public class GameTest {
     }
 
     @Test
-    public void assertBuyCard(){
-        game = new Game();
-        int money = game.getTurn().getMoneyOnHand();
-        if (money >= 5) assertTrue(game.buyCard(3));
-        else assertFalse(game.buyCard(3));
-        game.getTurn().getBuyDeck(0).buy(10);
-        assertFalse(game.buyCard(0));
-    }
-
-    @Test
     public void assertEndTurn(){
         game = new Game();
         game.getTurn().getBuyDeck(0).buy(10);

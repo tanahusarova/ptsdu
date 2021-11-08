@@ -3,6 +3,7 @@ package sk.uniba.fmph.dcs;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import static org.junit.Assert.assertEquals;
@@ -42,15 +43,15 @@ public class HandTest {
     @Test
     public void assertGetCard(){
         hand1 = new Hand();
-        LinkedList<FakeCardT> cards = new LinkedList<>();
+        List<CardInterface> cards = new ArrayList<>();
         cards.add(new FakeCardT(GameCardType.GAME_CARD_TYPE_ESTATE));
         cards.add(new FakeCardT(GameCardType.GAME_CARD_TYPE_VILLAGE));
         cards.add(new FakeCardT(GameCardType.GAME_CARD_TYPE_COPPER));
 
-        hand1.addCards((CardInterface) cards);
+        hand1.addCards(cards);
         FakeCardT card = (FakeCardT) hand1.getCard(2);
         assertEquals(card.cardType(), cards.get(2).cardType());
-        assertEquals(hand1.play(3).cardType(), cards.get(3).cardType());
+        assertEquals(hand1.play(1).cardType(), cards.get(1).cardType());
         assertTrue(hand1.getSize() == 2);
 
     }
@@ -59,7 +60,6 @@ public class HandTest {
     public void assertAddCard(){
         hand1 = new Hand();
         int size = hand1.getSize();
-       // FakeCardT card = new FakeCardT(GameCardType.GAME_CARD_TYPE_COPPER);
         CardInterface card = new FakeCardT(GameCardType.GAME_CARD_TYPE_VILLAGE);
 
         hand1.addCards(card);
@@ -89,5 +89,6 @@ public class HandTest {
         if (removed) assertTrue(size > hand1.getSize());
         else assertEquals(size, hand1.getSize());
     }
+
 
 }

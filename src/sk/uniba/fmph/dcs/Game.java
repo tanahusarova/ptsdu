@@ -6,23 +6,25 @@ import java.util.List;
 import java.util.Optional;
 
 import static sk.uniba.fmph.dcs.GameCardType.GAME_CARD_TYPE_COPPER;
+import static sk.uniba.fmph.dcs.GameCardType.GAME_CARD_TYPE_ESTATE;
 
 public class Game{
 
-    private GameState gameState;
-    boolean playPhase;
-    boolean buyPhase;
+    private boolean playPhase;
+    private boolean buyPhase;
     private Turn turn;
+    private boolean endGame;
+
 
     public Game(){
-       // gameState = new GameState();
+        endGame = false;
         playPhase = true;
         buyPhase = false;
         turn = new Turn(1, 1, 0);
     }
 
     public boolean playCard(int handIdx){
-        if (!playPhase) return false;
+        if (!playPhase || endGame) return false;
 
         Card card = (Card) turn.getHand().play(handIdx);
 
@@ -44,7 +46,7 @@ public class Game{
     }
 
     public boolean buyCard(int buyCardIdx){
-        if (!buyPhase) return false;
+        if (!buyPhase || endGame) return false;
         if (turn.getBuyDecksSize() <= buyCardIdx) return false;
 
         BuyDeck buyDeck = turn.getBuyDeck(buyCardIdx);
@@ -57,6 +59,8 @@ public class Game{
 
         Card card = (Card) buyDeck.buy();
         turn.getDiscardPile().addCard(card);
+        if (card.cardType() == GAME_CARD_TYPE_ESTATE) turn.updateStatus(card);
+
         turn.getTurnStatus().buys--;
 
         return true;
@@ -70,7 +74,10 @@ public class Game{
         playPhase = true;
         EndGameStrategy eds = new EndGameStrategyAnd();
 
-        if (eds.isGameOver(turn)) System.out.println("Hra skončila");
+        if (eds.isGameOver(turn)) {
+            System.out.println("Hra skončila");
+            endGame = true;
+        }
 
         return true;
     }
@@ -79,7 +86,4 @@ public class Game{
         return turn;
     }
 
-    public GameState getGameState(){
-        return gameState;
-    }
 }

@@ -24,7 +24,7 @@ public class DeckTest {
 
     @Test
     public void assertGetNewMove(){
-        deck = new Deck();
+        deck = new Deck(new DiscardPile());
         FakeCardD card = new FakeCardD(deck.getNewMove().cardType());
         assertFalse(card == null);
         assertEquals(deck.getSize(), 9);
@@ -33,7 +33,7 @@ public class DeckTest {
 
     @Test
     public void assertDraw(){
-        deck = new Deck();
+        deck = new Deck(new DiscardPile());
         deck.draw(4);
         assertEquals(deck.getSize(), 6);
         List<CardInterface> cards = deck.draw(5);
@@ -44,7 +44,7 @@ public class DeckTest {
 
     @Test
     public void assertAddCards(){
-        deck = new Deck();
+        deck = new Deck(new DiscardPile());
         List<CardInterface> cards = new ArrayList<>(){{
             add(new FakeCardD(GameCardType.GAME_CARD_TYPE_VILLAGE));
             add(new FakeCardD(GameCardType.GAME_CARD_TYPE_COPPER));

@@ -14,8 +14,8 @@ public class Hand{
         cards.add(card);
     }
 
-    public void addCards(List<CardInterface> cards){
-        this.cards.addAll(cards);
+    public void addCards(List<CardInterface> card){
+        cards.addAll(card);
     }
 
     public int getSize(){ return cards.size(); }
@@ -25,7 +25,7 @@ public class Hand{
     }
 
     public CardInterface play(int idx){
-        if (cards.get(idx) == null) return null;
+        if (idx >= cards.size() || idx < 0) return null;
 
         CardInterface tmp = cards.get(idx);
         cards.remove(idx);
@@ -37,11 +37,8 @@ public class Hand{
         return (this.cards).removeAll(cards);
     }
 
-    public boolean removeFrom(CardInterface card){
-        return (this.cards).remove(card);
-    }
-
     public CardInterface getCard(int i){
+        if (i >= cards.size() || i < 0) return null;
         CardInterface card = cards.get(i);
 
         return card;

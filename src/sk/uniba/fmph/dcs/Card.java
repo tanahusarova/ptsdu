@@ -57,6 +57,7 @@ public class Card implements CardInterface{
         ts.actions += type.getPlusActions();
         ts.buys += type.getPlusBuys();
         ts.coins += type.getPlusCoins();
+        ts.points += type.getPoints();
     }
 
     @Override

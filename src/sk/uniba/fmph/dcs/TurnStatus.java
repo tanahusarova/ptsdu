@@ -4,11 +4,14 @@ public class TurnStatus {
     public int actions;
     public int buys;
     public int coins;
+    public int points;
 
     public TurnStatus(int actions, int buys, int coins){
         this.actions = actions;
         this.buys = buys;
         this.coins = coins;
+        points = 0;
+
     }
 
     public void useCoins(int i) {

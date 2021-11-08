@@ -6,9 +6,11 @@ import static sk.uniba.fmph.dcs.GameCardType.*;
 
 public class Deck{
     private Queue<CardInterface> cards;
+    DiscardPile ds;
 
-    public Deck(){
+    public Deck(DiscardPile ds){
         cards = new LinkedList<>();
+        this.ds = ds;
         List<CardInterface> tmp = new ArrayList<>();
 
         for (int i = 0; i < 3; i++)
@@ -23,16 +25,24 @@ public class Deck{
     }
 
     public CardInterface getNewMove(){
-        return cards.poll();
+        CardInterface card = cards.poll();
+        if (card == null) {
+            cards.addAll(ds.shuffle());
+            card = cards.poll();
+        }
+        return card;
     }
 
     public List<CardInterface> draw(int count){
-        Card card;
+        CardInterface card;
         List<CardInterface> tmp = new ArrayList<>();
 
         for (int i = 0; i < count; i++){
-            card = (Card) cards.poll();
-            if (card == null) return tmp;
+            card = cards.poll();
+            if (card == null) {
+                cards.addAll(ds.shuffle());
+                card = cards.poll();
+            }
             tmp.add(card);
         }
 

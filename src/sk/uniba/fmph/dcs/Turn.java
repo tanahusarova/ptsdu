@@ -18,9 +18,9 @@ public class Turn{
     public Turn(int actions, int buys, int coins){
         this.turnStatus = new TurnStatus(actions, buys, coins);
         this.hand = new Hand();
-        this.deck = new Deck();
         this.play = new Play();
         this.discardPile = new DiscardPile();
+        this.deck = new Deck(this.discardPile);
         this.buyDecks = new ArrayList<>();
 
         buyDecks.add(new BuyDeck(GAME_CARD_TYPE_MARKET, 10));
@@ -28,8 +28,11 @@ public class Turn{
         buyDecks.add(new BuyDeck(GAME_CARD_TYPE_VILLAGE, 10));
         buyDecks.add(new BuyDeck(GAME_CARD_TYPE_FESTIVAL, 10));
         buyDecks.add(new BuyDeck(GAME_CARD_TYPE_LABORATORY, 10));
+        buyDecks.add(new BuyDeck(GAME_CARD_TYPE_ESTATE, 5));
 
-        getCardsForNextMove();
+
+
+        deck.draw(5);
 
     }
 
@@ -56,17 +59,9 @@ public class Turn{
     public void updateStatus(Card card){
         card.evaluate(turnStatus);
         int plusCards = card.cardType().getPlusCards();
+        if (plusCards > 0) hand.addCards(deck.draw(plusCards));
 
-        if (plusCards > 0) {
-            for (int i = 0; i < plusCards; i++) {
-                CardInterface tmp = deck.getNewMove();
-                if (tmp == null) {
-                    changeDeck();
-                    tmp = deck.getNewMove();
-                }
-                hand.addCards(tmp);
-            }
-        }
+
 
     }
 
@@ -78,6 +73,10 @@ public class Turn{
         }
 
         return tmp;
+    }
+
+    public boolean remainEstates(){
+        return buyDecks.get(5).getCardCount() > 0;
     }
 
     public void endTurn(){
@@ -105,20 +104,6 @@ public class Turn{
             }
             hand.addCards(card);
         }
-    }
-
-    public int getMoneyOnHand(){
-        int moneyOnHandAmount = 0;
-        GameCardType gct;
-
-        for (int i = 0; i < hand.getSize(); i++) {
-            gct = hand.getType(i);
-
-            if (gct == GAME_CARD_TYPE_COPPER) {
-                moneyOnHandAmount++;
-            }
-        }
-        return moneyOnHandAmount;
     }
 
     public int getBuyDecksSize(){
