@@ -26,7 +26,7 @@ public class BuyDeck {
         return new Card(gameCardType);
     }
 
-    public List<CardInterface> buy(int i){ //asi netreba kupovat viac kariet naraz (teda aspon som nenasiel kde by sa to vyuzilo)
+    public List<CardInterface> buy(int i){
         if(cardCount < i) return null;
 
         cardCount -= i;
